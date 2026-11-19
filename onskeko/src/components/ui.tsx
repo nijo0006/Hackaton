@@ -75,23 +75,6 @@ export function CheckIcon({ className = 'size-4' }: { className?: string }) {
   )
 }
 
-/** Stem op-knap: lime når man kan stemme, dæmpet når man har stemt. */
-export function VoteButton({ votes, voted, onVote, size = 'md' }: { votes: number; voted: boolean; onVote: () => void; size?: 'md' | 'sm' }) {
-  return (
-    <button
-      onClick={onVote}
-      disabled={voted}
-      aria-label={voted ? `Du har stemt. ${votes} stemmer` : `Stem op. ${votes} stemmer`}
-      className={`flex shrink-0 items-center justify-center gap-1 rounded-xl font-bold tabular-nums transition active:scale-95 ${
-        size === 'md' ? 'h-12 min-w-16 px-3 text-base' : 'h-9 min-w-14 px-2.5 text-sm'
-      } ${voted ? 'border border-lime/40 bg-lime-dim text-lime' : 'bg-lime text-bg hover:brightness-110'}`}
-    >
-      {voted ? <CheckIcon /> : <UpArrow />}
-      {votes}
-    </button>
-  )
-}
-
 export function GenreTag({ genre }: { genre: Genre }) {
   return <span className="rounded-full border border-line px-2 py-0.5 text-xs text-muted">{genre}</span>
 }

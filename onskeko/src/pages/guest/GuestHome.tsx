@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { Cover, LiveBadge, Logo, VoteButton } from '../../components/ui'
+import { CheckIcon, Cover, LiveBadge, Logo, UpArrow } from '../../components/ui'
 import { getGuestId } from '../../lib/session'
 import { cooldownUntil, hasVoted, rankedQueue, settingsFor, useAppState, vote } from '../../lib/store'
 import { useNow } from '../../lib/time'
@@ -60,25 +60,50 @@ export default function GuestHome() {
       </div>
 
       <section className="mt-6 flex-1 pb-48">
-        <div className="mb-3 flex items-baseline justify-between">
+        <div className="mb-3">
           <h2 className="font-bold">Populære ønsker lige nu</h2>
-          <span className="text-xs text-muted">Stem op ↑</span>
+          <p className="mt-0.5 text-sm text-muted">
+            Placeret efter antal stemmer. <span className="text-white">Tryk på en sang for at stemme på den</span> – flest stemmer kommer først på DJ'ens liste.
+          </p>
         </div>
         {queue.length === 0 ? (
           <p className="rounded-2xl bg-card p-6 text-center text-muted">Ingen ønsker endnu – vær den første!</p>
         ) : (
           <ol className="space-y-2">
-            {queue.map((r) => (
-              <li key={r.id} className="flex items-center gap-3 rounded-2xl bg-card p-3">
-                <span className="w-5 text-center text-sm font-bold text-muted tabular-nums">{r.rank}</span>
-                <Cover src={r.cover} title={r.title} />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-semibold">{r.title}</p>
-                  <p className="truncate text-sm text-muted">{r.artist}</p>
-                </div>
-                <VoteButton votes={r.votes} voted={hasVoted(state, r.id, guestId)} onVote={() => vote(r.id, guestId)} />
-              </li>
-            ))}
+            {queue.map((r) => {
+              const voted = hasVoted(state, r.id, guestId)
+              return (
+                <li key={r.id}>
+                  <button
+                    onClick={() => vote(r.id, guestId)}
+                    disabled={voted}
+                    aria-label={voted ? `${r.title}: du har stemt. ${r.votes} stemmer` : `Stem på ${r.title}. ${r.votes} stemmer`}
+                    className={`flex w-full items-center gap-3 rounded-2xl border p-3 text-left transition active:scale-[0.98] ${
+                      voted ? 'border-lime/40 bg-card' : 'border-transparent bg-card hover:border-lime/50'
+                    }`}
+                  >
+                    <span className="w-7 shrink-0 text-center text-sm font-bold text-muted tabular-nums">#{r.rank}</span>
+                    <Cover src={r.cover} title={r.title} />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-semibold">{r.title}</p>
+                      <p className="truncate text-sm text-muted">{r.artist}</p>
+                      <p className="mt-0.5 text-sm font-semibold text-lime tabular-nums">
+                        {r.votes} {r.votes === 1 ? 'stemme' : 'stemmer'}
+                      </p>
+                    </div>
+                    {voted ? (
+                      <span className="flex h-11 shrink-0 items-center gap-1 rounded-xl bg-lime-dim px-3 text-sm font-bold text-lime">
+                        <CheckIcon /> Stemt
+                      </span>
+                    ) : (
+                      <span className="flex h-11 shrink-0 items-center gap-1 rounded-xl bg-lime px-3 text-sm font-bold text-bg">
+                        <UpArrow /> Stem
+                      </span>
+                    )}
+                  </button>
+                </li>
+              )
+            })}
           </ol>
         )}
       </section>

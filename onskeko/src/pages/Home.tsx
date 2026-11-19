@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { Logo } from '../components/ui'
 import { DEMO_CLUB_ID } from '../lib/seed'
 import { isSimulating, onSimulatingChange, setSimulating } from '../lib/simulator'
+import { shareOrigin } from '../lib/links'
 import { backend, rankedQueue, resetDemo, useAppState } from '../lib/store'
 
 const VIEWS = [
@@ -85,6 +86,26 @@ export default function Home() {
         {simulating && <p className="mt-3 text-xs text-lime">Simulerer gæster – hold denne fane åben. Nye ønsker og stemmer tilføjes hvert 2. sekund.</p>}
       </section>
 
+      <section className="mt-6 rounded-2xl border border-line bg-card p-5">
+        <h2 className="font-bold">Links til holdet</h2>
+        <p className="text-sm text-muted">Virker på andre computere og telefoner på samme wifi, så længe denne computer kører appen.</p>
+        <ul className="mt-3 space-y-2 text-sm">
+          {VIEWS.map((v) => {
+            const url = `${shareOrigin}${v.to}`
+            return (
+              <li key={v.n} className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <span className="w-16 text-muted">{v.title}</span>
+                <code className="rounded-lg bg-card-2 px-2 py-1 break-all text-lime">{url}</code>
+                <CopyButton text={url} />
+              </li>
+            )
+          })}
+        </ul>
+        {shareOrigin.includes('localhost') && (
+          <p className="mt-3 text-xs text-amber-300">Start appen med <code>npm run dev:host</code> for at få links, andre kan åbne.</p>
+        )}
+      </section>
+
       <footer className="mt-12 flex flex-wrap gap-x-6 gap-y-2 border-t border-line pt-6 text-xs text-muted">
         <span className="font-semibold tracking-wide uppercase">Hvorfor klubben betaler</span>
         <span>✓ Gladere DJ – ingen afbrydelser</span>
@@ -92,5 +113,25 @@ export default function Home() {
         <span>✓ Bedre setlister næste gang</span>
       </footer>
     </div>
+  )
+}
+
+function CopyButton({ text }: { text: string }) {
+  const [copied, setCopied] = useState(false)
+  return (
+    <button
+      onClick={() => {
+        navigator.clipboard
+          ?.writeText(text)
+          .then(() => {
+            setCopied(true)
+            setTimeout(() => setCopied(false), 1500)
+          })
+          .catch(() => {})
+      }}
+      className="rounded-lg border border-line px-2 py-1 text-xs text-muted hover:text-white"
+    >
+      {copied ? 'Kopieret ✓' : 'Kopiér'}
+    </button>
   )
 }

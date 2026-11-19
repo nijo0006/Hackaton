@@ -2,6 +2,7 @@ import { QRCodeSVG } from 'qrcode.react'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Card, Cover, GenreBars, Logo } from '../../components/ui'
+import { shareOrigin } from '../../lib/links'
 import { useAppState } from '../../lib/store'
 import { MINUTE, currentEventId, formatEventDate } from '../../lib/time'
 import type { SongRequest } from '../../lib/types'
@@ -34,7 +35,7 @@ export default function Venue() {
   for (const r of requests) genreCounts[r.genre] = (genreCounts[r.genre] ?? 0) + 1
 
   const top10 = [...requests].sort((a, b) => (votesByRequest.get(b.id) ?? 0) - (votesByRequest.get(a.id) ?? 0)).slice(0, 10)
-  const guestUrl = `${window.location.origin}/club/${clubId}`
+  const guestUrl = `${shareOrigin}/club/${clubId}`
 
   return (
     <div className="mx-auto max-w-7xl px-6 py-6">
@@ -108,9 +109,9 @@ export default function Venue() {
           <a href={guestUrl} target="_blank" rel="noreferrer" className="mt-3 text-sm break-all text-lime underline">
             {guestUrl}
           </a>
-          {['localhost', '127.0.0.1'].includes(window.location.hostname) && (
+          {shareOrigin.includes('localhost') && (
             <p className="mt-3 text-xs text-amber-300">
-              Peger på localhost og virker ikke fra en telefon. Start med <code>npm run dev:host</code> og åbn siden via netværksadressen.
+              Peger på localhost og virker ikke fra en telefon. Start med <code>npm run dev:host</code>.
             </p>
           )}
           <button onClick={() => window.print()} className="mt-4 h-10 rounded-xl border border-line px-4 text-sm font-semibold hover:border-lime">

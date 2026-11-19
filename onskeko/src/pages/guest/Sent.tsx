@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { CheckIcon, Cover, Logo } from '../../components/ui'
+import { shareOrigin } from '../../lib/links'
 import { rankedQueue, useAppState, voteCount } from '../../lib/store'
 
 export default function Sent() {
@@ -19,7 +20,7 @@ export default function Sent() {
   }
 
   async function share() {
-    const url = `${window.location.origin}/club/${clubId}`
+    const url = `${shareOrigin}/club/${clubId}`
     const text = `Stem på “${request!.title}” på ønskekø 🎶`
     try {
       if (navigator.share) await navigator.share({ title: 'ønskekø', text, url })

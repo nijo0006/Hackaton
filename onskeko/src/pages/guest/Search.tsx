@@ -128,7 +128,9 @@ export default function Search() {
               <div className="min-w-0 flex-1">
                 <p className="truncate font-semibold">{song.title}</p>
                 {a.kind === 'requested' ? (
-                  <p className="truncate text-sm text-lime">Allerede ønsket af {a.votes}</p>
+                  <p className="truncate text-sm text-lime">
+                    Allerede ønsket · {a.votes} {a.votes === 1 ? 'stemme' : 'stemmer'}
+                  </p>
                 ) : a.kind === 'played' ? (
                   <p className="truncate text-sm text-muted">Spillet {minutesAgo(a.playedAt, now) === 'lige nu' ? 'lige nu' : `for ${minutesAgo(a.playedAt, now)}`}</p>
                 ) : a.kind === 'rejected' ? (
