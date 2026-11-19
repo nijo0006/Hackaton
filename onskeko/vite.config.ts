@@ -15,6 +15,8 @@ function lanAddress(): string {
 
 // https://vite.dev/config/
 export default defineConfig(({ command }) => ({
+  // På GitHub Pages ligger appen under /Hackaton/ (sættes af deploy-workflowet).
+  base: process.env.BASE_PATH ?? '/',
   plugins: [react(), tailwindcss()],
   define: {
     __LAN_HOST__: JSON.stringify(command === 'serve' ? lanAddress() : ''),

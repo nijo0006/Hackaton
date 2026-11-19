@@ -2,15 +2,17 @@
 
 Gæster på en natklub ønsker sange til DJ'en fra telefonen – uden at gå op til pulten og forstyrre. Hackathon-prototype.
 
-## De tre views
+## 🔗 Prøv appen – virker for alle, på alle enheder
 
-| View | Sti | Til |
+| View | Link | Til |
 |---|---|---|
-| 🙋 **Gæst** | `/club/nova` | Mobil – søg, ønsk og stem op (intet login) |
-| 🎧 **DJ** | `/dj/nova` | Tablet/laptop – login: **mira** / **1234** |
-| 🏢 **Klub** | `/venue/nova` | Desktop – dashboard og QR-kode |
+| 🙋 **Gæst** | https://nijo0006.github.io/Hackaton/club/nova | Mobil – søg, ønsk og stem op (intet login) |
+| 🎧 **DJ** | https://nijo0006.github.io/Hackaton/dj/nova | Tablet/laptop – login: **mira** / **1234** |
+| 🏢 **Klub** | https://nijo0006.github.io/Hackaton/venue/nova | Desktop – dashboard og QR-kode |
 
-### Hvilken adresse skal jeg bruge?
+Forsiden https://nijo0006.github.io/Hackaton/ har links til alle tre plus "Simulér gæster" og "Nulstil demo". Alle enheder deler data live via Supabase. Siden opdateres automatisk ved hvert push til `main`.
+
+## Kør appen lokalt (til udvikling)
 
 **⚠️ `localhost` virker kun på den computer, der kører appen.** Åbner man fx `http://localhost:5173/dj/nova` på en anden computer, prøver den at finde appen på *sin egen* maskine – og får en fejl.
 
